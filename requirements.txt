@@ -1,0 +1,7 @@
+Django>=2.0,<2.1
+wagtail>=2.1,<2.2
+gunicorn
+psycopg2
+django-heroku
+django-storages
+boto3

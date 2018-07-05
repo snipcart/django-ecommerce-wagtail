@@ -1,0 +1,67 @@
+{% extends "base.html" %}
+{% load wagtailimages_tags %}
+
+{% block content %}
+    <div class="container grid-lg">
+        <div class="columns">
+            <div class="column col-4">
+                {% image page.image max-300x300 as temp_image %}
+                <img src="{{ temp_image.url }}" alt="" />
+            </div>
+            <div class="column col-8">
+                <h1>
+                    {{ page.title }}
+                </h1>
+
+                <p>
+                    {{ page.short_description }}
+                </p>
+
+                <p>
+                    {% for f in custom_fields %}
+                        {% if f.options_array|length > 0 %}
+                            <div class="form-group">
+                                <label class="form-label" for="{{ f.name|lower }}">
+                                    {{ f.name }}
+                                </label>
+                                <select class="form-select custom-field-select" id="{{ f.name|lower }}" data-field="{{ forloop.counter }}">
+                                    {% for opt in f.options_array %}
+                                        <option>
+                                            {{ opt }}
+                                        </option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+                        {% endif %}
+                    {% endfor %}
+                </p>
+
+                <button class="snipcart-add-item btn btn-primary"
+                    data-item-name="{{ page.title }}"
+                    data-item-id="{{ page.sku }}"
+                    data-item-url="{{ page.get_full_url }}"
+                    data-item-price="{{ page.price }}"
+                    data-item-description="{{ page.short_description}}"
+                    data-item-image="{{ temp_image.url }}"
+                    {% for f in custom_fields %}
+                        data-item-custom{{forloop.counter}}-name="{{f.name}}"
+                        data-item-custom{{forloop.counter}}-options="{{f.options}}"
+                    {% endfor %}>
+                    <i class="icon icon-plus"></i>
+                    Add to cart
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            document.querySelector('.custom-field-select').onchange = function(event) {
+                if (event.target.dataset.field) {
+                    document.querySelector('.snipcart-add-item')
+                        .dataset['itemCustom' + event.target.dataset.field + 'Value'] = event.target.value;
+                }
+            };
+        },false);
+    </script>
+{% endblock %}
