@@ -16,8 +16,8 @@ Steps:
 - Creating new products for your Django store.
 - Crafting an e-commerce template.
 
-+ [Read the full tutorial](https://snipcart.com/blog/django-ecommerce-tutorial-wagtail-cms)
+> [Read the full tutorial](https://snipcart.com/blog/django-ecommerce-tutorial-wagtail-cms)
 
-+ [Check out the live demo](http://snipcart-wagtail.herokuapp.com/)
+> [Check out the live demo](http://snipcart-wagtail.herokuapp.com/)
 
 Enjoy folks!
