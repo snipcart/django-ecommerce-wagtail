@@ -54,33 +54,33 @@ jobs:
           GITHUB_DEFAULT_BRANCH: '${{ github.event.repository.default_branch }}'
           GITGUARDIAN_API_KEY: '${{ secrets.GITGUARDIAN_API_KEY }}'
 
-  SCA:
-      name: Source Composition Analysis (Safety)
-      runs-on: ubuntu-latest
-      needs:
-        - Secrets_Scan
-      steps:
-        - name: Checkout
-          uses: actions/checkout@master
-        - name: Safety Check
-          uses: aufdenpunkt/python-safety-check@master
-          env:
-            DEP_PATH: /requirements.txt
+  # SCA:
+  #     name: Source Composition Analysis (Safety)
+  #     runs-on: ubuntu-latest
+  #     needs:
+  #       - Secrets_Scan
+  #     steps:
+  #       - name: Checkout
+  #         uses: actions/checkout@master
+  #       - name: Safety Check
+  #         uses: aufdenpunkt/python-safety-check@master
+  #         env:
+  #           DEP_PATH: /requirements.txt
 
          
 
-  # Software_Comp_Analysis_Debricked:
-  #   name: Software-Comp-Analysis-Debricked
-  #   runs-on: ubuntu-latest
-  #   needs:
-  #     - Secrets_Scan
-  #   steps:
-  #     - name: Checkout
-  #       uses: actions/checkout@v2
-  #     - uses: debricked/actions/scan@v1
-  #       env:
-  #         USERNAME: '${{ secrets.DEBRICKED_USERNAME }}'
-  #         PASSWORD: '${{ secrets.DEBRICKED_PASSWORD }}'
+  Software_Comp_Analysis_Debricked:
+    name: Software-Comp-Analysis-Debricked
+    runs-on: ubuntu-latest
+    needs:
+      - Secrets_Scan
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+      - uses: debricked/actions/scan@v1
+        env:
+          USERNAME: '${{ secrets.DEBRICKED_USERNAME }}'
+          PASSWORD: '${{ secrets.DEBRICKED_PASSWORD }}'
 
 
   # Software_Comp_Analysis_DepCheck:
