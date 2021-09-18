@@ -14,7 +14,7 @@
 
 name: Build and Deploy to GKE
 
-# on:
+on:
 #   workflow_run:
 #     workflows: ["DevSecOps"]
 #     branches: [development]
@@ -22,7 +22,7 @@ name: Build and Deploy to GKE
 #       - completed
 #   workflow_dispatch: null    
       
-      
+
  push:
    branches:
      - developer
