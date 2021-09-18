@@ -72,31 +72,34 @@ jobs:
           PASSWORD: '${{ secrets.DEBRICKED_PASSWORD }}'
 
 
-  Software_Comp_Analysis_DepCheck:
-    name: Software-Comp-Analysis-OWASPDEPCHECK
+  SCA_OWASP_DEP_CHECK:
+    name: Source Composition Analysis (OWASP dependency check)
     runs-on: ubuntu-latest
     needs:
       - Secrets_Scan
     steps:
-    - name: Checkout code
-      uses: actions/checkout@v2
-    - name: Download Dep Check tool
-      run:  wget https://github.com/jeremylong/DependencyCheck/releases/download/v6.2.2/dependency-check-6.2.2-release.zip
-    - name: Install the tool and run it
-      run: unzip dependency-check-6.2.2-release.zip && ls -l && dependency-check/bin/dependency-check.sh -s .
-        
-    - name: artifacts
-      uses: actions/upload-artifact@v2
-      with:
-          name: depcheck-artifact
-          path: ${{ github.workspace }}     
+      - name: Checkout
+        uses: actions/checkout@v2
+      - name: Depcheck
+        uses: dependency-check/Dependency-Check_Action@main
+        id: Depcheck
+        with:
+          project: 'test'
+          path: '.'
+          format: 'HTML'    
+          others: ''
+      - name: Upload Test results
+        uses: actions/upload-artifact@master
+        with:
+           name: Depcheck report
+           path: ${{github.workspace}}/reports
 
   SAST:
     name: Static Application Security Testing
     runs-on: ubuntu-latest
     needs:
      - Software_Comp_Analysis_Debricked
-     - Software_Comp_Analysis_DepCheck
+     - SCA_OWASP_DEP_CHECK
     steps:
       - uses: AppThreat/sast-scan-action@master
         with:
@@ -131,7 +134,7 @@ jobs:
           dockerfile: ./Dockerfile
           username: '${{ secrets.DOCKER_USERNAME }}'
           password: '${{ secrets.DOCKER_PASSWORD }}'
-          
+
 
  
 
