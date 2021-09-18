@@ -25,10 +25,10 @@ on:
 
  push:
    branches:
-     - developer
+     - development
  pull_request:
    branches:
-     - developer
+     - development
  workflow_dispatch: null    
 
 env:
