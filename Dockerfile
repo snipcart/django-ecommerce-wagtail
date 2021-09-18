@@ -14,7 +14,7 @@ COPY . /code/
 WORKDIR /code/
 
 RUN python manage.py migrate
-RUN python manage.py shell -c "from django.contrib.auth.models import User; User.objects.create_superuser('lolk3k', 'lolk3k@somemail.com', 'HackLolK3k1337')"
+RUN python manage.py shell -c "import os;from django.contrib.auth.models import User; User.objects.create_superuser(os.environ.get('DJANGO_SU_NAME'), os.environ.get('DJANGO_SU_EMAIL'), os.environ.get('DJANGO_SU_PASSWORD')"
 RUN useradd wagtail
 RUN chown -R wagtail /code
 USER wagtail
