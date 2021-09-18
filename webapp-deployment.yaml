@@ -1,0 +1,19 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: nocommerce
+spec:
+  selector:
+    matchLabels:
+      run: nocommerce
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        run: nocommerce
+    spec:
+      containers:
+      - name: nocommerce
+        image: gcr.io/PROJECT_ID/IMAGE:TAG
+        ports:
+        - containerPort: 80
