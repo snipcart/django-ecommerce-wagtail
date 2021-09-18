@@ -16,4 +16,4 @@ spec:
       - name: exam-deployment
         image: gcr.io/PROJECT_ID/IMAGE:TAG
         ports:
-        - containerPort: 80
+        - containerPort: 8000
