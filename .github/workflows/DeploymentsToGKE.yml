@@ -14,29 +14,29 @@
 
 name: Build and Deploy to GKE
 
-on:
-  workflow_run:
-    workflows: ["DevSecOps"]
-    branches: [developer]
-    types: 
-      - completed
-  workflow_dispatch: null    
+# on:
+#   workflow_run:
+#     workflows: ["DevSecOps"]
+#     branches: [development]
+#     types: 
+#       - completed
+#   workflow_dispatch: null    
       
       
-#  push:
-#    branches:
-#      - developer
-#  pull_request:
-#    branches:
-#      - developer
-#  workflow_dispatch: null    
+ push:
+   branches:
+     - developer
+ pull_request:
+   branches:
+     - developer
+ workflow_dispatch: null    
 
 env:
   PROJECT_ID: ${{ secrets.GKE_PROJECT }} # GKE Project Name
   GKE_CLUSTER: ${{ secrets.GKE_CLUSTER }}    # GKE Cluster Name
   GKE_ZONE: ${{ secrets.GKE_ZONE }}   # Default GKE deployment Zone
   SA_ACC: ${{ secrets.GKE_SA_KEY }} # GKE Service account
-  DEPLOYMENT_NAME: nocommerce # Deployment Name
+  DEPLOYMENT_NAME: exam_deployment # Deployment Name
   IMAGE: devsecops
 
 jobs:
