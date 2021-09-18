@@ -1,19 +1,19 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: nocommerce
+  name: exam_deployment
 spec:
   selector:
     matchLabels:
-      run: nocommerce
+      run: exam_deployment
   replicas: 1
   template:
     metadata:
       labels:
-        run: nocommerce
+        run: exam_deployment
     spec:
       containers:
-      - name: nocommerce
+      - name: exam_deployment
         image: gcr.io/PROJECT_ID/IMAGE:TAG
         ports:
         - containerPort: 80
