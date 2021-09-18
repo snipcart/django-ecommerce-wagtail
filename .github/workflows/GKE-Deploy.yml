@@ -6,7 +6,7 @@ on:
     branches: [development]
     types: 
       - completed
-  workflow_dispatch: null    
+ 
       
 
 #  push:
