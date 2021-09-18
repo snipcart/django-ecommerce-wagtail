@@ -17,42 +17,42 @@ env:
 
 jobs:
 
-  Auto_Code_Review:
-    name: Code-Review-DevSkim
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v2
-      - uses: microsoft/DevSkim-Action@v1
-      - uses: github/codeql-action/upload-sarif@v1
-        with:
-         sarif_file: devskim-results.sarif
-      - name: artifacts
-        uses: actions/upload-artifact@v2
-        with:
-          name: DevSkim-artifact
-          path: ${{ github.workspace }}
+  # Auto_Code_Review:
+  #   name: Code-Review-DevSkim
+  #   runs-on: ubuntu-latest
+  #   steps:
+  #     - name: Checkout
+  #       uses: actions/checkout@v2
+  #     - uses: microsoft/DevSkim-Action@v1
+  #     - uses: github/codeql-action/upload-sarif@v1
+  #       with:
+  #        sarif_file: devskim-results.sarif
+  #     - name: artifacts
+  #       uses: actions/upload-artifact@v2
+  #       with:
+  #         name: DevSkim-artifact
+  #         path: ${{ github.workspace }}
 
-  Secrets_Scan:
-    name: SecretsScan-GitGuardian
-    runs-on: ubuntu-latest
-    needs:
-      - Auto_Code_Review
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v2
-        with:
-          fetch-depth: 0
-      - name: GitGuardian scan
-        uses: GitGuardian/gg-shield-action@master
-        with:
-          args: -v --all-policies --show-secrets 
-        env:
-          GITHUB_PUSH_BEFORE_SHA: '${{ github.event.before }}'
-          GITHUB_PUSH_BASE_SHA: '${{ github.event.base }}'
-          GITHUB_PULL_BASE_SHA: '${{ github.event.pull_request.base.sha }}'
-          GITHUB_DEFAULT_BRANCH: '${{ github.event.repository.default_branch }}'
-          GITGUARDIAN_API_KEY: '${{ secrets.GITGUARDIAN_API_KEY }}'
+  # Secrets_Scan:
+  #   name: SecretsScan-GitGuardian
+  #   runs-on: ubuntu-latest
+  #   needs:
+  #     - Auto_Code_Review
+  #   steps:
+  #     - name: Checkout
+  #       uses: actions/checkout@v2
+  #       with:
+  #         fetch-depth: 0
+  #     - name: GitGuardian scan
+  #       uses: GitGuardian/gg-shield-action@master
+  #       with:
+  #         args: -v --all-policies --show-secrets 
+  #       env:
+  #         GITHUB_PUSH_BEFORE_SHA: '${{ github.event.before }}'
+  #         GITHUB_PUSH_BASE_SHA: '${{ github.event.base }}'
+  #         GITHUB_PULL_BASE_SHA: '${{ github.event.pull_request.base.sha }}'
+  #         GITHUB_DEFAULT_BRANCH: '${{ github.event.repository.default_branch }}'
+  #         GITGUARDIAN_API_KEY: '${{ secrets.GITGUARDIAN_API_KEY }}'
 
   # SCA:
   #     name: Source Composition Analysis (Safety)
@@ -70,18 +70,36 @@ jobs:
 
          
 
-  Software_Comp_Analysis_Debricked:
-    name: Software-Comp-Analysis-Debricked
+  # Software_Comp_Analysis_Debricked:
+  #   name: Software-Comp-Analysis-Debricked
+  #   runs-on: ubuntu-latest
+  #   needs:
+  #     - Secrets_Scan
+  #   steps:
+  #     - name: Checkout
+  #       uses: actions/checkout@v2
+  #     - uses: debricked/actions/scan@v1
+  #       env:
+  #         USERNAME: '${{ secrets.DEBRICKED_USERNAME }}'
+  #         PASSWORD: '${{ secrets.DEBRICKED_PASSWORD }}'
+
+
+
+  SAST:
+    name: Static Application Security Testing
     runs-on: ubuntu-latest
-    needs:
-      - Secrets_Scan
+    # needs:
+    #  - Software_Comp_Analysis_Debricked
     steps:
-      - name: Checkout
-        uses: actions/checkout@v2
-      - uses: debricked/actions/scan@v1
-        env:
-          USERNAME: '${{ secrets.DEBRICKED_USERNAME }}'
-          PASSWORD: '${{ secrets.DEBRICKED_PASSWORD }}'
+      - uses: AppThreat/sast-scan-action@master
+        with:
+          type: "python"
+
+      - uses: actions/upload-artifact@v1
+        with:
+          name: reports
+          path: reports
+
 
 
   # Software_Comp_Analysis_DepCheck:
