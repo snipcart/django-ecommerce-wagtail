@@ -36,7 +36,7 @@ env:
   GKE_CLUSTER: ${{ secrets.GKE_CLUSTER }}    # GKE Cluster Name
   GKE_ZONE: ${{ secrets.GKE_ZONE }}   # Default GKE deployment Zone
   SA_ACC: ${{ secrets.GKE_SA_KEY }} # GKE Service account
-  DEPLOYMENT_NAME: exam_deployment # Deployment Name
+  DEPLOYMENT_NAME: exam-deployment # Deployment Name
   IMAGE: devsecops
 
 jobs:

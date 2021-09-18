@@ -1,19 +1,19 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: exam_deployment
+  name: exam-deployment
 spec:
   selector:
     matchLabels:
-      run: exam_deployment
+      run: exam-deployment
   replicas: 1
   template:
     metadata:
       labels:
-        run: exam_deployment
+        run: exam-deployment
     spec:
       containers:
-      - name: exam_deployment
+      - name: exam-deployment
         image: gcr.io/PROJECT_ID/IMAGE:TAG
         ports:
         - containerPort: 80
