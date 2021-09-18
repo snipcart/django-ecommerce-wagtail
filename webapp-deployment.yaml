@@ -17,3 +17,5 @@ spec:
         image: gcr.io/PROJECT_ID/IMAGE:TAG
         ports:
         - containerPort: 8000
+
+        
